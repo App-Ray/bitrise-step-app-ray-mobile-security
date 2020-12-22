@@ -110,7 +110,7 @@ inputs:
         Value 0-100, where 100 is the highest risk
      is_required: true
 
-  - result_path: "*build/test-results"
+  - result_path: "*build/test-results/"
     opts:
       category: Options
       title: Test XML result directory pattern
