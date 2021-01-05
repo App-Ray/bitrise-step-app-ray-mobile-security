@@ -3,6 +3,7 @@
 Fully automated mobile application security testing identifies vulnerabilities, mitigate risks, comply with regulations whether you are developer, CISO, CEO.
 
 
+
 ## How to use this Step
 
 Can be run directly with the [bitrise CLI](https://github.com/bitrise-io/bitrise),
