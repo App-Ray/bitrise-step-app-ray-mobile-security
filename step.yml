@@ -4,9 +4,9 @@ summary: |
   Mobile application security testing with App-Ray's engine via API
 description: |
   Fully automated mobile application security testing identifies vulnerabilities, mitigate risks, comply with regulations whether you are developer, CISO, CEO.
-website: https://github.com/kaldyka/bitrise-step-app-ray
-source_code_url: https://github.com/kaldyka/bitrise-step-app-ray
-support_url: https://github.com/kaldyka/bitrise-step-app-ray/issues
+website: https://app-ray.co/
+source_code_url: https://github.com/App-Ray/bitrise-step-app-ray-mobile-security
+support_url: https://github.com/App-Ray/bitrise-step-app-ray-mobile-security/issues
 host_os_tags:
   - osx-10.10
   - ubuntu-16.04
