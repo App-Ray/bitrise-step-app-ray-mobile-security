@@ -1,8 +1,6 @@
 #!/bin/bash
 set -ex
 
-#------------------------------------------1 file size check
-
 filesize=$(wc ${app_path} | awk '{print $3}')
 if [ "$filesize" -gt 524288000 ]
 then
@@ -10,19 +8,7 @@ then
  exit 1
 fi
 
-#------------------------------------------2 auth
-
-auth_token=$(curl -d "username=${appray_user}&password=${appray_passwd}&grant_type=password" -X POST ${base_url}api/v1/authentication | awk '/"access_token":/{token=$2}END{print token}'  | cut -d\" -f2)
-
-if [ -z "$auth_token" ]
-then
- echo "Bad login, exiting..."
- exit 1
-fi
-
-auth_header="Authorization: Bearer $auth_token"
-
-#------------------------------------------3 upload, get job id
+auth_header="Authorization: Bearer ${appray_api_token}"
 
 jobid=""
 upload_response=$(curl -w "%{http_code}" -H "$auth_header" -F "app_file=@${app_path}" -X POST ${base_url}api/v1/jobs)
@@ -36,8 +22,6 @@ then
 else
  jobid=$upload_response
 fi
-
-#------------------------------------------4 check job loop
 
 jobdone=0
 
@@ -55,18 +39,14 @@ if [ -z "$pending" ]
  fi
 done
 
-#------------------------------------------5 xunit save
-
 if [ -z ${result_path} ]
 then
  echo "result_path was left empty"
  echo "Saving results interrupted"
 else
  echo "Saving results to ${result_path}/app_ray_results.xml"
- curl -H "$auth_header" ${base_url}api/v1/jobs/"$jobid"/junit --output "${result_path}"/app_ray_result.xml
+ curl -H "$auth_header" ${base_url}api/v1/jobs/"$jobid"/junit --output "${result_path}"app_ray_result.xml
 fi
-
-#------------------------------------------6 score treshold check
 
 risk=$(curl -H "$auth_header" ${base_url}api/v1/jobs/"$jobid" | awk '/"risk_score":/{riskscore=$2}END{print riskscore}' | cut -d\, -f1)
 envman add --key APP_RAY_RISK_SCORE --value "$risk"
